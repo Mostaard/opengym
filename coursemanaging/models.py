@@ -122,6 +122,9 @@ class Course(models.Model):
             return self.max_students_course <= self.students.count()
         return False
 
+    def description_rendered(self):
+        return markdown(self.description)
+
     def get_next_session(self):
         if Session.objects.filter(course=self, start__gte=timezone.now()).exists():
             return Session.objects.filter(course=self, start__gte=timezone.now()).order_by('start')[0]

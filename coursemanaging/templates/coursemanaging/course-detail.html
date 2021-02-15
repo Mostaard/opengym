@@ -62,7 +62,7 @@
                 {% endif %}
                 <tr>
                     <th scope="row">Beschrijving</th>
-                    <td>{{ course.description }}</td>
+                    <td>{{ course.description_rendered | safe }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Locatie</th>
