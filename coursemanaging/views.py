@@ -97,7 +97,7 @@ class LandingView(generic.TemplateView):
                 'Bericht op de opengym website ',
                 ''.join(body),
                 'opengym.online@gmail.com',
-                ['opengymleuven@gmail.com']
+                ['opengymleuven@gmail.com', 'info@opengym.be']
             )
             msg.content_subtype = "html"
             msg.send()
