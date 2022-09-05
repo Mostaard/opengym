@@ -358,7 +358,7 @@ class NewsBulletin(models.Model):
                         )
 
     bulletin_level = models.SmallIntegerField(choices=BULLETIN_CHOICES)
-    news_item = models.OneToOneField(NewsItem, null=True, blank=True)
+    news_item = models.OneToOneField(NewsItem, null=True, blank=True,on_delete=models.SET_NULL)
 
     def clean(self):
         if self.news_item.short_text is None:
