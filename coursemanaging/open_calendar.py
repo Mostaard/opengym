@@ -39,7 +39,7 @@ class OpenCalendar(HTMLCalendar):
                 body.append('<ul class="calendar-day-events">')
                 for session in self.session_list[day]:
                     session_class = ""
-                    if self.user.is_authenticated():
+                    if self.user.is_authenticated:
                         if session.course.user_is_teacher(self.user):
                             session_class = 'session-teacher'
 
@@ -122,7 +122,7 @@ class OpenCalendar(HTMLCalendar):
             body.append('<ul class="calendar-day-events">')
             for session in self.session_list[day.day]:
                 session_class = ""
-                if self.user.is_authenticated():
+                if self.user.is_authenticated:
                     if session.course.user_is_teacher(self.user):
                         session_class = 'session-teacher'
 
