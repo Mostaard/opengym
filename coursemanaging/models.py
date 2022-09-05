@@ -69,7 +69,8 @@ class User(AbstractBaseUser, PermissionsMixin):
             'Unselect this instead of deleting accounts.'
         ),
     )
-    date_joined = models.DateTimeField(default=timezone.now, verbose_name='date joined', null=True)
+    date_joined = models.DateTimeField(default=timezone.now, verbose_name='date joined',
+                                       null=True)
 
     USERNAME_FIELD = 'email'
     objects = MyUserManager()
@@ -101,7 +102,8 @@ class Course(models.Model):
                      )
 
     course_name = models.CharField(max_length=100, null=False, blank=False)
-    course_level = models.SmallIntegerField(null=False, blank=False, choices=LEVEL_CHOICES)
+    course_level = models.SmallIntegerField(null=False, blank=False,
+                                            choices=LEVEL_CHOICES)
     build_up_sessions = models.BooleanField(default=False)
     max_students_session = models.PositiveSmallIntegerField(null=True, blank=True)
     max_students_course = models.PositiveSmallIntegerField(null=True, blank=True)
@@ -128,12 +130,15 @@ class Course(models.Model):
 
     def get_next_session(self):
         if Session.objects.filter(course=self, start__gte=timezone.now()).exists():
-            return Session.objects.filter(course=self, start__gte=timezone.now()).order_by('start')[0]
+            return \
+            Session.objects.filter(course=self, start__gte=timezone.now()).order_by(
+                'start')[0]
         else:
             return None
 
     def get_future_sessions(self):
-        return Session.objects.filter(start__gte=timezone.now(), course=self).order_by('start')
+        return Session.objects.filter(start__gte=timezone.now(), course=self).order_by(
+            'start')
 
     def user_is_subscribed(self, user):
         return self.students.filter(id=user.id).exists()
@@ -199,8 +204,11 @@ class BuildingDay(models.Model):
     start = models.DateTimeField(null=False, blank=False)
     duration = models.DurationField(null=False, blank=False, default=timedelta())
     description = models.TextField()
-    responsible_users = models.ManyToManyField(User, related_name='building_responsibilitites', blank=True)
-    subscribed_users = models.ManyToManyField(User, related_name='building_days', blank=True)
+    responsible_users = models.ManyToManyField(User,
+                                               related_name='building_responsibilitites',
+                                               blank=True)
+    subscribed_users = models.ManyToManyField(User, related_name='building_days',
+                                              blank=True)
 
     def user_is_subscribed(self, user):
         return self.subscribed_users.filter(id=user.id).exists()
@@ -232,7 +240,8 @@ class Session(models.Model):
     location_number = models.CharField(max_length=5, null=True, blank=True)
     location_city = models.CharField(max_length=50, null=True, blank=True)
 
-    course = models.ForeignKey(Course, related_name='sessions', default=1, blank=True)
+    course = models.ForeignKey(Course, related_name='sessions', default=1, blank=True,
+                               on_delete=models.SET_NULL)
     subscribed_users = models.ManyToManyField(User, related_name='sessions', blank=True)
 
     class Meta:
@@ -331,7 +340,8 @@ class NewsItem(models.Model):
     short_text = models.TextField(null=True, blank=True)
     title = models.CharField(max_length=200)
     image = models.ImageField(null=True, blank=True)
-    publication_date = models.DateTimeField(default=timezone.now, null=False, blank=False)
+    publication_date = models.DateTimeField(default=timezone.now, null=False,
+                                            blank=False)
 
     def __str__(self):
         return self.title
